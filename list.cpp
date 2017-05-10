@@ -110,40 +110,42 @@ int main(){
 
     cout << "2. Учить" << endl;
     cout << "Вариант: ";
-//while(1)
-//{
     cin >> change;
     switch(change)
     {
-    case 1:
-        cout << "Введите количество слов, которые ВЫ хотите запомнить:" << endl;
-        cin >> size;
+        case 1:
+            cout << "Введите количество слов, которые ВЫ хотите запомнить:" << endl;
+            cin >> size;
+            for(int i = 0; i < size; i++){
+                dict tmp;
+                cin >> tmp.eng >> tmp.rus;
+                tmp.proc = 0;
+                list.push_back(tmp);
+            }
+            writeinfile(list);
+        case 2:
+            list.clear();
+            readfromfile(list);
+            list.pop_back();
+            if(list.size() < 4){
+                cout << "Слишком мало слов!" << endl;
+                cout << "Введите ещё " << 4 - list.size() << " слова:" << endl;
+                int k = list.size();
+                for(int i = 0; i < 4 - k; i++){
+                    dict tmp;
+                    cin >> tmp.eng >> tmp.rus;
+                    tmp.proc = 0;
+                    list.push_back(tmp);
+                }
+                writeinfile(list);
+            }
+            cout << endl << "Данные из файла: " << endl;
+            for(unsigned int i = 0; i < list.size(); i++){
+                cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
+            }
 
-        for(int i = 0; i < size; i++)
-        {
-            dict tmp;
-            cin >> tmp.eng >> tmp.rus;
-            tmp.proc = 0;
-            list.push_back(tmp);
-        }
-        writeinfile(list);
-        break;
-    case 2:
-        cout << endl << "Данные из файла: " << endl;
-        list.clear();
-        readfromfile(list);
-        list.pop_back();
-        /*if(list.size() <= 4){
-            cout << "Слишком мало слов!" << endl << "Введите ещё " << 4- list.size()<< " слова" << endl;
-            break;
-        }*/
-        for(int i = 0; i < list.size(); i++)
-        {
-            cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
-        }
+            correct_writing_word(list);
+          // choice_word_on_ENG(list);
+    }
 
-        correct_writing_word(list);
-       //choice_word_on_ENG(list);
-    //}
-}
 }
