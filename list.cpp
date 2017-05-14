@@ -15,6 +15,129 @@ struct dict
     int proc;
 };
 
+//функция формирования ответов которые будет выбирать пользователь(для выбора перевода с английского)
+int function_of_selectionRUS(vector<dict> &list, int k, int v, int x, int y)
+{
+    if  (k == v)  
+    cout << "  "  << v << ". " << list[x].rus << endl;
+    else 
+    cout << "  "  << v << ". " << list[y].rus << endl;
+    return 0;
+}
+
+//функция формирования ответов которые будет выбирать пользователь(для выбора перевода с русского)
+int function_of_selectionENG(vector<dict> &list, int k, int v, int x, int y)
+{
+    if  (k == v)  
+    cout << "  "  << v << ". " << list[x].eng << endl;
+    else 
+    cout << "  "  << v << ". " << list[y].eng << endl;
+    return 0;
+}
+
+
+int func_check_choise(int k, int v)
+{
+    if (k == v)
+    cout << "-----ВЕРНО!!-----" << endl;
+    else
+    cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+    return 0;  
+
+}
+    
+
+//функция - тест (выбор правильного перевода с английского на русский)
+
+void English_Russian_test(vector<dict> &list){   
+    system("clear");
+    srand(time(NULL));
+    int choice;
+    int k = rand() % 4 + 1;
+    int i = rand()%list.size();
+    int p = i, c = i, s = i, l = i;
+    while ( l == i ) 
+    l = rand()%list.size();
+
+    while ( s == i || s == l) 
+    s = rand()%list.size();
+
+    while ( c == i || c == l || c == s) 
+    c = rand()%list.size();
+
+    while ( p == i || p == l || p == s || p == c) 
+    p = rand()%list.size();
+
+    cout << "Выберите правильный перевод слова: " << list[i].eng << endl;
+
+    function_of_selectionRUS( list, k, 1, i, l);
+    function_of_selectionRUS( list, k, 2, i, s);
+    function_of_selectionRUS( list, k, 3, i, c);
+    function_of_selectionRUS( list, k, 4, i, p);
+
+    cout << "Ваш ответ: " ;
+    cin >> choice;
+
+    switch(choice)
+    
+    {
+        case 1: func_check_choise( k, 1);
+            break;
+
+        case 2: func_check_choise( k, 2);
+            break;  
+
+        case 3: func_check_choise( k, 3);
+            break;
+
+        case 4: func_check_choise( k, 4);
+            break;
+        }
+    
+}
+
+//функция - тест (выбор правильного перевода с русского на английский)
+
+void Russian_English_test(vector<dict> &list){   
+    system("clear");
+    srand(time(NULL));
+    int choice;
+    int k = rand() % 4 + 1;
+    int i = rand()%list.size();
+    int p = i, c = i, s = i, l = i;
+    while ( l == i ) 
+    l = rand()%list.size();
+
+    while ( s == i || s == l) 
+    s = rand()%list.size();
+
+    while ( c == i || c == l || c == s) 
+    c = rand()%list.size();
+
+    while ( p == i || p == l || p == s || p == c) 
+    p = rand()%list.size();
+
+    cout << "Выберите правильный перевод слова: " << list[i].rus << endl;
+
+    function_of_selectionENG(list,  k, 1, i, l);
+    function_of_selectionENG(list,  k, 2, i, s);
+    function_of_selectionENG(list,  k, 3, i, c);
+    function_of_selectionENG(list,  k, 4, i, p);
+    cout << "Ваш ответ: "  ;
+    cin >> choice;
+    switch(choice)
+    {
+        case 1: func_check_choise( k, 1);
+            break;
+        case 2: func_check_choise( k, 2);
+            break;
+        case 3: func_check_choise( k, 3);
+            break;
+        case 4: func_check_choise( k, 4);
+            break; 
+        }
+}
+
 //функция проверки проверки правильности написания англ. слова
 void correct_writing_word(vector<dict> &list){
     srand(time(NULL));
