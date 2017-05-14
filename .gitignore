@@ -1,3 +1,6 @@
 *.~
 *.dat
 !.gitignore
+!list.cpp
+*.cpp
+*.c
