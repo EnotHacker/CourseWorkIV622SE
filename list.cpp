@@ -15,6 +15,7 @@ struct dict
     int proc;
 };
 
+
 //функция формирования ответов которые будет выбирать пользователь(для выбора перевода с английского)
 int function_of_selectionRUS(vector<dict> &list, int k, int v, int x, int y)
 {
@@ -277,13 +278,20 @@ int main(){
             int k = 0;
             int y = 0;
             while(1){
-                /*
                 while(rand()%500 - 1 != -1){
-                    y = rand()%2 + 1;
-                }*/
-                switch(1){
+                    y = rand()%3 + 1;
+                }
+                switch(y){
                     case 1:
                         correct_writing_word(list);
+                        sleep(1);
+                        break;
+                    case 2:
+                        English_Russian_test(list);
+                        sleep(1);
+                        break;
+                    case 3:
+                        Russian_English_test(list);
                         sleep(1);
                         break;
                     default:
