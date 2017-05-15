@@ -271,7 +271,7 @@ int main(){
             readfromfile(list);
             list.pop_back();
             words_more_5(list);
-            cout << endl << "Ваш список слов: " << endl;
+            cout << endl << "Данные из файла: " << endl;
             for(unsigned int i = 0; i < list.size(); i++){
                 cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
             }
