@@ -45,7 +45,7 @@ int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
     cout << "-----ВЕРНО!!-----" << endl;
     else
     cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
-	cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
+	cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
     return 0;  
 
 }
@@ -56,7 +56,7 @@ int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
     cout << "-----ВЕРНО!!-----" << endl;
     else
     cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
-	cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
+	cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
     return 0;  
 
 }
