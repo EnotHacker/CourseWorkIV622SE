@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cctype>
 #include <unistd.h>
+#include <stdio.h>
+
 using namespace std;
 
 struct dict
@@ -182,6 +184,8 @@ void correct_writing_word(vector<dict> &list){
 
 }
 
+void input_words(vector<dict> &list);
+
 //запись в файл
 int writeinfile_1(vector<dict> &list){
     unsigned int i;
@@ -219,6 +223,11 @@ int writeinfile_2(vector<dict> &list){
 //чтение из файла
 int readfromfile(vector<dict> &list){
     ifstream fin("dict.dat", ios::in);
+    if (!fin.is_open()){
+        cout << endl << "-----Пока нет слов в словаре!-----" << endl;
+        input_words(list);
+        return 0;
+    }
     while(!fin.eof()){
         dict tmp;
         fin >> tmp.eng >> tmp.rus >> tmp.proc;
@@ -228,17 +237,17 @@ int readfromfile(vector<dict> &list){
     return 0;
 }
 
-//проверка, что слов в базе >= 4
+//проверка, что слов в базе >= 5
 void words_more_5(vector<dict> &list){
     int k = list.size();
-    if(k < 4){
-        cout << "Слишком мало слов!" << endl;
+    if(k < 5){
+        cout << endl << "Слишком мало слов!" << endl;
         cout << "Введите ещё " << 5 - list.size() << " слова:" << endl;
         for(int i = 0; i < 5 - k; i++){
             dict tmp;
-            cout << "Введите слово на АНГЛИЙСКОМ: ";
+            cout <<  endl << i+1 << ". " << "Введите слово на АНГЛИЙСКОМ: ";
             cin >> tmp.eng ;
-            cout << "Введите слово на РУССКОМ: ";
+            cout << i+1 << ". " << "Введите слово на РУССКОМ: ";
             cin >> tmp.rus;
             tmp.proc = 0;
             list.push_back(tmp);
@@ -249,7 +258,7 @@ void words_more_5(vector<dict> &list){
 
 int main(){
     vector<dict> list;
-    int size, change = 0;
+    int change = 0;
     int session;
     ifstream fin("session"); 
     fin >> session; 
@@ -268,29 +277,23 @@ int main(){
     switch(change)
     {
         case 1:
-            cout << "Введите количество слов, которые ВЫ хотите запомнить: ";
-            cin >> size;
-            for(int i = 0; i < size; i++){
-                dict tmp;
-                    cout <<  endl << i+1 << ". " << "Введите слово на АНГЛИЙСКОМ: ";
-                    cin >> tmp.eng ;
-                    cout << i+1 << ". " << "Введите слово на РУССКОМ: ";
-                    cin >> tmp.rus;
-                tmp.proc = 0;
-                list.push_back(tmp);
-            }  
-            writeinfile_2(list);
-            break;
+            input_words(list);
 
         case 2:
             list.clear();
-            readfromfile(list);
+            readfromfile(list);        
             list.pop_back();
             words_more_5(list);
-            cout << endl << "Данные из файла: " << endl;
+            cout << endl << "Слова в вашем словаре: " << endl;
             for(unsigned int i = 0; i < list.size(); i++){
                 cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
             }
+            cout << "Нажмите Enter, чтобы начать обучение... ";
+            cin.clear();    
+            do{
+                cin.get();
+                sleep(1);
+            } while(cin.get() != '\n');
             int k = 0;
             int y = 0;
             while(1){
@@ -300,15 +303,30 @@ int main(){
                 switch(y){
                     case 1:
                         correct_writing_word(list);
-                        sleep(1);
+                        cout << "Нажмите Enter, для следующего вопроса ";
+                        cin.clear();    
+                        do{
+                            cin.get();
+                            sleep(1);
+                        } while(cin.get() != '\n');
                         break;
                     case 2:
                         English_Russian_test(list);
-                        sleep(1);
+                        cout << "Нажмите Enter, для следующего вопроса ";
+                        cin.clear();    
+                        do{
+                            cin.get();
+                            sleep(1);
+                        } while(cin.get() != '\n');
                         break;
                     case 3:
                         Russian_English_test(list);
-                        sleep(1);
+                        cout << "Нажмите Enter, для следующего вопроса ";
+                        cin.clear();    
+                        do{
+                            cin.get();
+                            sleep(1);
+                        } while(cin.get() != '\n');
                         break;
                     default:
                     break;
@@ -322,3 +340,20 @@ int main(){
     return 0;
 
 }
+
+void input_words(vector<dict> &list){
+    int size;
+    cout << endl << "Введите количество слов, которые ВЫ хотите запомнить: ";
+    cin >> size;
+    for(int i = 0; i < size; i++){
+        dict tmp;
+        cout <<  endl << i+1 << ". " << "Введите слово на АНГЛИЙСКОМ: ";
+        cin >> tmp.eng ;
+        cout << i+1 << ". " << "Введите слово на РУССКОМ: ";
+        cin >> tmp.rus;
+        tmp.proc = 0;
+        list.push_back(tmp);
+    }  
+    writeinfile_2(list);
+}
+
