@@ -37,12 +37,24 @@ int function_of_selectionENG(vector<dict> &list, int k, int v, int x, int y)
 }
 
 
-int func_check_choise(int k, int v)
+int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
 {
     if (k == v)
     cout << "-----ВЕРНО!!-----" << endl;
     else
     cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+	cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
+    return 0;  
+
+}
+
+int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
+{
+    if (k == v)
+    cout << "-----ВЕРНО!!-----" << endl;
+    else
+    cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+	cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
     return 0;  
 
 }
@@ -82,16 +94,16 @@ void English_Russian_test(vector<dict> &list){
     switch(choice)
     
     {
-        case 1: func_check_choise( k, 1);
+        case 1: func_check_choiseRU( list, k, 1, i);
             break;
 
-        case 2: func_check_choise( k, 2);
+        case 2: func_check_choiseRU( list, k, 2, i);
             break;  
 
-        case 3: func_check_choise( k, 3);
+        case 3: func_check_choiseRU( list, k, 3, i);
             break;
 
-        case 4: func_check_choise( k, 4);
+        case 4: func_check_choiseRU( list, k, 4, i);
             break;
         }
     
@@ -120,23 +132,27 @@ void Russian_English_test(vector<dict> &list){
 
     cout << "Выберите правильный перевод слова: " << list[i].rus << endl;
 
-    function_of_selectionENG(list,  k, 1, i, l);
-    function_of_selectionENG(list,  k, 2, i, s);
-    function_of_selectionENG(list,  k, 3, i, c);
-    function_of_selectionENG(list,  k, 4, i, p);
+    function_of_selectionENG( list,  k, 1, i, l);
+    function_of_selectionENG( list,  k, 2, i, s);
+    function_of_selectionENG( list,  k, 3, i, c);
+    function_of_selectionENG( list,  k, 4, i, p);
     cout << "Ваш ответ: "  ;
     cin >> choice;
     switch(choice)
     {
-        case 1: func_check_choise( k, 1);
+        case 1: func_check_choiseENG(  list, k, 1, i);
             break;
-        case 2: func_check_choise( k, 2);
+
+        case 2: func_check_choiseENG(  list, k, 2, i);
+            break;  
+
+        case 3: func_check_choiseENG(  list, k, 3, i);
             break;
-        case 3: func_check_choise( k, 3);
-            break;
-        case 4: func_check_choise( k, 4);
+
+        case 4: func_check_choiseENG(  list, k, 4, i);
             break; 
         }
+
 }
 
 //функция проверки проверки правильности написания англ. слова
