@@ -45,7 +45,7 @@ int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
     cout << "-----ВЕРНО!!-----" << endl;
     else
     {
-    	cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+    	cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
 		cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
 	}
     return 0;  
@@ -58,7 +58,7 @@ int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
     cout << "-----ВЕРНО!!-----" << endl;
     else
     {
-    	cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+    	cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
 		cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
 	}
     return 0;  
@@ -179,7 +179,7 @@ void correct_writing_word(vector<dict> &list){
         }
         else
         {
-            cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl; 
+            cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl; 
             cout << "Правильный ответ: " << list[i].eng << endl;
             break;
         }
@@ -244,7 +244,7 @@ int readfromfile(vector<dict> &list){
 //проверка, что слов в базе >= 5
 void words_more_5(vector<dict> &list){
     int k = list.size();
-    if(k < 5){
+    if(k < 4){
         cout << endl << "Слишком мало слов!" << endl;
         cout << "Введите ещё " << 5 - list.size() << " слова:" << endl;
         for(int i = 0; i < 5 - k; i++){
@@ -261,6 +261,7 @@ void words_more_5(vector<dict> &list){
 }
 
 int main(){
+    srand(time(NULL));
     vector<dict> list;
     int change = 0;
     int session;
@@ -292,22 +293,21 @@ int main(){
             for(unsigned int i = 0; i < list.size(); i++){
                 cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
             }
-            cout << "Нажмите Enter, чтобы начать обучение... ";
+            cout << endl << "Нажмите Enter, чтобы начать обучение... ";
             cin.clear();    
             do{
                 cin.get();
-                sleep(1);
+                sleep(0.1);
             } while(cin.get() != '\n');
+
             int k = 0;
-            int y = 0;
+            int test = 0;
             while(1){
-                while(rand()%500 - 1 != -1){
-                    y = rand()%3 + 1;
-                }
-                switch(y){
+                test = rand()%3 + 1;
+                switch(test){
                     case 1:
                         correct_writing_word(list);
-                        cout << "Нажмите Enter, для следующего вопроса ";
+                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
                         cin.clear();    
                         do{
                             cin.get();
@@ -316,7 +316,7 @@ int main(){
                         break;
                     case 2:
                         English_Russian_test(list);
-                        cout << "Нажмите Enter, для следующего вопроса ";
+                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
                         cin.clear();    
                         do{
                             cin.get();
@@ -325,7 +325,7 @@ int main(){
                         break;
                     case 3:
                         Russian_English_test(list);
-                        cout << "Нажмите Enter, для следующего вопроса ";
+                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
                         cin.clear();    
                         do{
                             cin.get();
