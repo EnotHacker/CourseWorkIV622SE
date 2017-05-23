@@ -26,20 +26,10 @@ int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
     if (k == v)
     cout << "-----ВЕРНО!!-----" << endl;
     else
-<<<<<<< HEAD:list.cpp
-    cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
-	cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
-||||||| parent of e7a91ce...  Creating files function.c and function.h
     {
     	cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
 		cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
 	}
-=======
-    {
-        cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
-        cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
-    }
->>>>>>> e7a91ce...  Creating files function.c and function.h:function.cpp
     return 0;  
 
 }
@@ -49,20 +39,10 @@ int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
     if (k == v)
     cout << "-----ВЕРНО!!-----" << endl;
     else
-<<<<<<< HEAD:list.cpp
-    cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
-	cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
-||||||| parent of e7a91ce...  Creating files function.c and function.h
-    {
-    	cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
-		cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
-	}
-=======
     {
         cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
         cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
     }
->>>>>>> e7a91ce...  Creating files function.c and function.h:function.cpp
     return 0;  
 
 }
@@ -260,181 +240,6 @@ void words_more_5(vector<dict> &list){
         writeinfile_1(list);
     }
 }
-
-<<<<<<< HEAD:list.cpp
-int main(){
-    vector<dict> list;
-    int change = 0;
-    int session;
-    ifstream fin("session"); 
-    fin >> session; 
-    if(session == 0){
-        ofstream fout("session", ios::out);
-        fout << 1;
-        fout.close();
-        cout << "1. Ввести слова для запоминания" << endl;
-    }
-    else 
-        cout << "1. Добавить слова" << endl;
-
-    cout << "2. Учить" << endl;
-    cout << "Вариант: ";
-    cin >> change;
-    switch(change)
-    {
-        case 1:
-            input_words(list);
-
-        case 2:
-            list.clear();
-            readfromfile(list);        
-            list.pop_back();
-            words_more_5(list);
-            cout << endl << "Слова в вашем словаре: " << endl;
-            for(unsigned int i = 0; i < list.size(); i++){
-                cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
-            }
-            cout << "Нажмите Enter, чтобы начать обучение... ";
-            cin.clear();    
-            do{
-                cin.get();
-                sleep(1);
-            } while(cin.get() != '\n');
-            int k = 0;
-            int y = 0;
-            while(1){
-                while(rand()%500 - 1 != -1){
-                    y = rand()%3 + 1;
-                }
-                switch(y){
-                    case 1:
-                        correct_writing_word(list);
-                        cout << "Нажмите Enter, для следующего вопроса ";
-                        cin.clear();    
-                        do{
-                            cin.get();
-                            sleep(1);
-                        } while(cin.get() != '\n');
-                        break;
-                    case 2:
-                        English_Russian_test(list);
-                        cout << "Нажмите Enter, для следующего вопроса ";
-                        cin.clear();    
-                        do{
-                            cin.get();
-                            sleep(1);
-                        } while(cin.get() != '\n');
-                        break;
-                    case 3:
-                        Russian_English_test(list);
-                        cout << "Нажмите Enter, для следующего вопроса ";
-                        cin.clear();    
-                        do{
-                            cin.get();
-                            sleep(1);
-                        } while(cin.get() != '\n');
-                        break;
-                    default:
-                    break;
-                }
-                k++;
-                if( k == 6) break;
-            }
-            break;
-
-        }
-    return 0;
-
-}
-
-||||||| parent of e7a91ce...  Creating files function.c and function.h
-int main(){
-    srand(time(NULL));
-    vector<dict> list;
-    int change = 0;
-    int session;
-    ifstream fin("session"); 
-    fin >> session; 
-    if(session == 0){
-        ofstream fout("session", ios::out);
-        fout << 1;
-        fout.close();
-        cout << "1. Ввести слова для запоминания" << endl;
-    }
-    else 
-        cout << "1. Добавить слова" << endl;
-
-    cout << "2. Учить" << endl;
-    cout << "Вариант: ";
-    cin >> change;
-    switch(change)
-    {
-        case 1:
-            input_words(list);
-
-        case 2:
-            list.clear();
-            readfromfile(list);        
-            list.pop_back();
-            words_more_5(list);
-            cout << endl << "Слова в вашем словаре: " << endl;
-            for(unsigned int i = 0; i < list.size(); i++){
-                cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
-            }
-            cout << endl << "Нажмите Enter, чтобы начать обучение... ";
-            cin.clear();    
-            do{
-                cin.get();
-                sleep(0.1);
-            } while(cin.get() != '\n');
-
-            int k = 0;
-            int test = 0;
-            while(1){
-                test = rand()%3 + 1;
-                switch(test){
-                    case 1:
-                        correct_writing_word(list);
-                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
-                        cin.clear();    
-                        do{
-                            cin.get();
-                            sleep(1);
-                        } while(cin.get() != '\n');
-                        break;
-                    case 2:
-                        English_Russian_test(list);
-                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
-                        cin.clear();    
-                        do{
-                            cin.get();
-                            sleep(1);
-                        } while(cin.get() != '\n');
-                        break;
-                    case 3:
-                        Russian_English_test(list);
-                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
-                        cin.clear();    
-                        do{
-                            cin.get();
-                            sleep(1);
-                        } while(cin.get() != '\n');
-                        break;
-                    default:
-                    break;
-                }
-                k++;
-                if( k == 6) break;
-            }
-            break;
-
-        }
-    return 0;
-
-}
-
-=======
->>>>>>> e7a91ce...  Creating files function.c and function.h:function.cpp
 void input_words(vector<dict> &list){
     int size;
     cout << endl << "Введите количество слов, которые ВЫ хотите запомнить: ";

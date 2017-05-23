@@ -11,7 +11,7 @@ main: main.o function.o
 main.o: main.cpp
 	$(CMP) $(CFLAGS) main.cpp
 
-function.o: function.c
+function.o: function.cpp
 	$(CMP) $(CFLAGS) function.cpp 
 
 clean: 
