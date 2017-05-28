@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <ctime>
-#include <algorithm>
+//#include <algorithm>
 #include <cctype>
 #include <unistd.h>
 #include <stdio.h>
@@ -30,13 +30,24 @@ int main(){
         cout << "1. Добавить слова" << endl;
 
     cout << "2. Учить" << endl;
-    cout << "Вариант: ";
+    cout << "3. Выйти из программы" << endl;
+    cout << "Выберите №: ";
     cin >> change;
     switch(change)
-    {
-        case 1:
-            input_words(list);
+    {   
+        case 3:
+            exit(1);
             break;
+        case 1:
+            while(1){
+                input_words(list);
+                cout << endl << "1. Ввести ещё слова" << endl;
+                cout << "2. Начать обучение" << endl;
+                cout << "Выберите №: ";
+                int input;
+                cin >> input;
+                if(input == 2) break;
+            }
 
         case 2:
             list.clear();
@@ -46,12 +57,11 @@ int main(){
             cout << endl << "Слова в вашем словаре: " << endl;
             for(unsigned int i = 0; i < list.size(); i++)
                 cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
-            cout << endl << "Нажмите Enter, для следующего вопроса... ";
+            cout << endl << "Нажмите Enter, для начала ОБУЧЕНИЯ... ";
             do{
                 cin.get();
                 sleep(0.1);
             } while(cin.get() != '\n');
-
             int k = 0;
             int test = 0;
             while(1){
@@ -91,8 +101,7 @@ int main(){
                 if( k == 6) break;
             }
             break;
-
-        }
+    }
     return 0;
     
 
