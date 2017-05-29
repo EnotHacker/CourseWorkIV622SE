@@ -4,12 +4,10 @@
 #include <fstream>
 #include <string>
 #include <ctime>
-//#include <algorithm>
 #include <cctype>
 #include <unistd.h>
 #include <stdio.h>
 #include "function.h"
-#include <iostream>
 
 using namespace std;
 
@@ -36,7 +34,7 @@ int main(){
     switch(change)
     {   
         case 3:
-            exit(1);
+            return 0;
             break;
         case 1:
             while(1){
@@ -57,7 +55,9 @@ int main(){
             cout << endl << "Слова в вашем словаре: " << endl;
             for(unsigned int i = 0; i < list.size(); i++)
                 cout << list[i].eng << " " << list[i].rus << " " << list[i].proc << endl;
+
             cout << endl << "Нажмите Enter, для начала ОБУЧЕНИЯ... ";
+            
             do{
                 cin.get();
                 sleep(0.1);
@@ -98,12 +98,13 @@ int main(){
                     break;
                 }
                 k++;
-                if( k == 6) break;
+                if( k == 5) break;
             }
             break;
     }
+
+    writeinfile_rewrite(list);
     return 0;
-    
 
 }
 

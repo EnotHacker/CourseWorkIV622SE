@@ -4,9 +4,9 @@
 int function_of_selectionRUS(vector<dict> &list, int k, int v, int x, int y)
 {
     if  (k == v)  
-    cout << "  "  << v << ". " << list[x].rus << endl;
+        cout << "  "  << v << ". " << list[x].rus << endl;
     else 
-    cout << "  "  << v << ". " << list[y].rus << endl;
+        cout << "  "  << v << ". " << list[y].rus << endl;
     return 0;
 }
 
@@ -14,21 +14,31 @@ int function_of_selectionRUS(vector<dict> &list, int k, int v, int x, int y)
 int function_of_selectionENG(vector<dict> &list, int k, int v, int x, int y)
 {
     if  (k == v)  
-    cout << "  "  << v << ". " << list[x].eng << endl;
+        cout << "  "  << v << ". " << list[x].eng << endl;
     else 
-    cout << "  "  << v << ". " << list[y].eng << endl;
+        cout << "  "  << v << ". " << list[y].eng << endl;
     return 0;
 }
 
 
+//рейтинг изученности слов
+void rating(vector<dict> &list, int right, int i){
+    if(right)
+       list[i].proc += 10;
+    else
+        list[i].proc -= list[i].proc * 0.5;
+}
+
 int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
 {
-    if (k == v)
-    cout << "-----ВЕРНО!!-----" << endl;
-    else
-    {
-    	cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+    if (k == v){
+        cout << endl << "----- ВЕРНО! -----" << endl;
+        rating(list, 1, i);
+    }
+    else{ 
+    	cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
 		cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
+        rating(list, 0, i);
 	}
     return 0;  
 
@@ -36,12 +46,14 @@ int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
 
 int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
 {
-    if (k == v)
-    cout << "-----ВЕРНО!!-----" << endl;
-    else
-    {
-        cout << endl << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+    if (k == v){
+        cout << endl << "----- ВЕРНО! -----" << endl;
+        rating(list, 1, i);
+    }
+    else{
+        cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
         cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
+        rating(list, 0, i);        
     }
     return 0;  
 
@@ -140,47 +152,37 @@ void Russian_English_test(vector<dict> &list){
         case 4: func_check_choiseENG(  list, k, 4, i);
             break; 
         }
-
 }
+
 
 //функция проверки проверки правильности написания англ. слова
 void correct_writing_word(vector<dict> &list){
     srand(time(NULL));
     string answer;
     system("clear");
-    while(1)
-    {
-        int i = rand()%list.size();
-        cout << "Введите это слово на английском:" << endl;
-        cout << list[i].rus << " -> ";
-        cin >> answer;
-        if(answer == list[i].eng)
-        {
-            cout << "-----ВЕРНО!!-----" << endl;
-            break;
-        }
-        else
-        {
-            cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl; 
-            cout << "Правильный ответ: " << list[i].eng << endl;
-            break;
-        }
-        answer.clear();
+    int i = rand()%list.size();
+    cout << "Введите это слово на английском:" << endl;
+    cout << list[i].rus << " -> ";
+    cin >> answer;
+    if(answer == list[i].eng)
+    {   
+        rating(list, 1, i);
+        cout << endl << "-----ВЕРНО!!-----" << endl;
     }
-
+    else{
+        rating(list, 0, i);
+        cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl; 
+        cout << "Правильный ответ: " << list[i].eng << endl;
+    }
+    answer.clear();
 }
+
 void input_words(vector<dict> &list);
 
 //запись в файл
-int writeinfile_1(vector<dict> &list){
+int writeinfile_rewrite(vector<dict> &list){
     unsigned int i;
     ofstream fout("dict.dat", ios::out);
-
-    if(fout == 0)
-    {
-        cout << "Ошибка открытия файла!" << endl;
-        return -1;
-    }
 
     for(i = 0; i < list.size(); i++)
         fout << list[i].eng << "\t" << list[i].rus << "\t" << list[i].proc << endl;
@@ -189,15 +191,9 @@ int writeinfile_1(vector<dict> &list){
 }
 
 //запись в файл
-int writeinfile_2(vector<dict> &list){
+int writeinfile_add(vector<dict> &list){
     unsigned int i;
     ofstream fout("dict.dat", ios::out | ios ::app);
-
-    if(fout == 0)
-    {
-        cout << "Ошибка открытия файла!" << endl;
-        return -1;
-    }
 
     for(i = 0; i < list.size(); i++)
         fout << list[i].eng << "\t" << list[i].rus << "\t" << list[i].proc << endl;
@@ -209,14 +205,19 @@ int writeinfile_2(vector<dict> &list){
 int readfromfile(vector<dict> &list){
     ifstream fin("dict.dat", ios::in);
     if (!fin.is_open()){
-        cout << endl << "-----Пока нет слов в словаре!-----" << endl;
+        cout << endl << "----- Пока нет слов в словаре! -----" << endl;
         input_words(list);
         return 0;
     }
     while(!fin.eof()){
         dict tmp;
         fin >> tmp.eng >> tmp.rus >> tmp.proc;
-        list.push_back(tmp);
+        if(tmp.proc < 100)
+            list.push_back(tmp);
+    }
+    if( list.empty() ){
+        cout << endl << "------ Все слова изучены! ДОБАВЬТЕ НОВЫЕ -----" << endl;
+        input_words(list);
     }
     fin.close();
     return 0;
@@ -237,7 +238,7 @@ void words_more_5(vector<dict> &list){
             tmp.proc = 0;
             list.push_back(tmp);
         }
-        writeinfile_1(list);
+        writeinfile_rewrite(list);
     }
 }
 void input_words(vector<dict> &list){
@@ -253,5 +254,5 @@ void input_words(vector<dict> &list){
         tmp.proc = 0;
         list.push_back(tmp);
     }  
-    writeinfile_2(list);
+    writeinfile_add(list);
 }
