@@ -1,4 +1,32 @@
 #include "function.h"
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <ctime>
+#include <unistd.h>
+
+int mt_setfgcolor(enum colors c)
+{
+	char str[20];
+	if(!sprintf(str, "\E[%dm", (c+30)))
+		return -1;
+	else
+		std::cout << str;
+	return 0;
+}
+
+int mt_setbgcolor(enum colors c)
+{
+	char str[20];
+	if(!sprintf(str, "\E[%dm", (c+40)))
+		return -1;
+	else
+		std::cout << str;
+	
+	return 0;
+}
 
 //функция формирования ответов которые будет выбирать пользователь(для выбора перевода с английского)
 int function_of_selectionRUS(vector<dict> &list, int k, int v, int x, int y)
@@ -32,11 +60,15 @@ void rating(vector<dict> &list, int right, int i){
 int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
 {
     if (k == v){
+    	mt_setfgcolor(GREEN);
         cout << endl << "----- ВЕРНО! -----" << endl;
+        mt_setfgcolor(DEFAULT);
         rating(list, 1, i);
     }
     else{ 
+    	mt_setfgcolor(RED);
     	cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
+    	mt_setfgcolor(DEFAULT);
 		cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
         rating(list, 0, i);
 	}
@@ -47,11 +79,15 @@ int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
 int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
 {
     if (k == v){
+    	mt_setfgcolor(GREEN);
         cout << endl << "----- ВЕРНО! -----" << endl;
+        mt_setfgcolor(DEFAULT);
         rating(list, 1, i);
     }
     else{
+    	mt_setfgcolor(RED);
         cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
+        mt_setfgcolor(DEFAULT);
         cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
         rating(list, 0, i);        
     }
@@ -167,11 +203,15 @@ void correct_writing_word(vector<dict> &list){
     if(answer == list[i].eng)
     {   
         rating(list, 1, i);
+        mt_setfgcolor(GREEN);
         cout << endl << "-----ВЕРНО!!-----" << endl;
+        mt_setfgcolor(DEFAULT);
     }
     else{
         rating(list, 0, i);
-        cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl; 
+        mt_setfgcolor(RED);
+        cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+        mt_setfgcolor(DEFAULT); 
         cout << "Правильный ответ: " << list[i].eng << endl;
     }
     answer.clear();
@@ -227,8 +267,10 @@ int readfromfile(vector<dict> &list){
 void words_more_5(vector<dict> &list){
     int k = list.size();
     if(k < 5){
+    	mt_setfgcolor(RED);
         cout << endl << "Слишком мало слов!" << endl;
-        cout << "Введите ещё " << 5 - list.size() << " слова:" << endl;
+        mt_setfgcolor(DEFAULT);
+        cout << "Введите ещё " << 5 - list.size() << " слов(а):" << endl;
         for(int i = 0; i < 5 - k; i++){
             dict tmp;
             cout <<  endl << i+1 << ". " << "Введите слово на АНГЛИЙСКОМ: ";
@@ -255,4 +297,107 @@ void input_words(vector<dict> &list){
         list.push_back(tmp);
     }  
     writeinfile_add(list);
+}
+
+void menu()
+{
+        srand(time(NULL));
+    vector<dict> list;
+    int change = 0;
+    int session;
+    ifstream fin("session"); 
+    fin >> session; 
+    if(session == 0){
+        ofstream fout("session", ios::out);
+        fout << 1;
+        fout.close();
+        cout << "1. Ввести слова для запоминания" << endl;
+    }
+    else 
+        cout << "1. Добавить слова" << endl;
+
+    cout << "2. Учить" << endl;
+    cout << "3. Выйти из программы" << endl;
+    cout << "Выберите №: ";
+    cin >> change;
+    switch(change)
+    {   
+        case 3:
+            exit(1);
+            break;
+        case 1:
+            while(1){
+                input_words(list);
+                cout << endl << "1. Ввести ещё слова" << endl;
+                cout << "2. Начать обучение" << endl;
+                cout << "Выберите №: ";
+                int input;
+                cin >> input;
+                if(input == 2) break;
+            }
+
+        case 2:
+            list.clear();
+            readfromfile(list);        
+            list.pop_back();
+            words_more_5(list);
+            cout << endl << " Слова для запоминания: " << endl;
+
+            cout << " #------------------------------------------------------------------------------#" << endl;
+            cout << " |№|   на АНГЛИЙСКОМ    |"  << "      на РУССКОМ       |" << "       ВЫУЧЕННОСТЬ слов        |"<< endl; 
+            cout << " |------------------------------------------------------------------------------|" << endl;
+
+            for(unsigned int i = 0; i < list.size(); i++){
+                cout << " |" << i+1 << "|" << '\t' << list[i].eng << '\t' <<  '\t' << "|"  << '\t' << list[i].rus << '\t' << '\t' << "|"  <<  '\t' <<  '\t' << list[i].proc << "%" << '\t' <<  '\t' << "|" << endl;
+                cout << " |------------------------------------------------------------------------------|" << endl;
+            }
+
+            cout << endl << " Нажмите Enter, для начала ОБУЧЕНИЯ... "  << endl;
+
+            do{
+                cin.get();
+                sleep(0.1);
+            } while(cin.get() != '\n');
+            int k = 0;
+            int test = 0;
+            while(1){
+                test = rand()%3 + 1;
+                switch(test){
+                    case 1:
+                        correct_writing_word(list);
+                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
+                        cin.clear();    
+                        do{
+                            cin.get();
+                            sleep(1);
+                        } while(cin.get() != '\n');
+                        break;
+                    case 2:
+                        English_Russian_test(list);
+                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
+                        cin.clear();    
+                        do{
+                            cin.get();
+                            sleep(1);
+                        } while(cin.get() != '\n');
+                        break;
+                    case 3:
+                        Russian_English_test(list);
+                        cout << endl << "Нажмите Enter, для следующего вопроса... ";
+                        cin.clear();    
+                        do{
+                            cin.get();
+                            sleep(1);
+                        } while(cin.get() != '\n');
+                        break;
+                    default:
+                    break;
+                }
+                k++;
+                if( k == 5) break;
+            }
+            break;
+    }
+    writeinfile_rewrite(list);
+    menu();
 }
