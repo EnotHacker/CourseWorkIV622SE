@@ -4,9 +4,7 @@
 #include <fstream>
 #include <string>
 #include <ctime>
-#include <cctype>
 #include <unistd.h>
-#include <stdio.h>
 #include "function.h"
 
 using namespace std;
@@ -52,14 +50,14 @@ int main(){
             readfromfile(list);        
             list.pop_back();
             words_more_5(list);
-            cout << endl << "Слова в вашем словаре: " << endl;
+            cout << endl << " Слова для запоминания: " << endl;
 
             cout << " #------------------------------------------------------------------------------#" << endl;
-            cout << " |     на АНГЛИЙСКОМ    |"  << "      на РУССКОМ       |" << "       ВЫУЧЕННОСТЬ слов        |"<< endl; 
+            cout << " |№|   на АНГЛИЙСКОМ    |"  << "      на РУССКОМ       |" << "       ВЫУЧЕННОСТЬ слов        |"<< endl; 
             cout << " |------------------------------------------------------------------------------|" << endl;
 
             for(unsigned int i = 0; i < list.size(); i++){
-                cout << " |" << '\t' << list[i].eng << '\t' <<  '\t' << "|"  << '\t' << list[i].rus << '\t' << '\t' << "|"  <<  '\t' <<  '\t' << list[i].proc << "%" << '\t' <<  '\t' << "|" << endl;
+                cout << " |" << i+1 << "|" << '\t' << list[i].eng << '\t' <<  '\t' << "|"  << '\t' << list[i].rus << '\t' << '\t' << "|"  <<  '\t' <<  '\t' << list[i].proc << "%" << '\t' <<  '\t' << "|" << endl;
                 cout << " |------------------------------------------------------------------------------|" << endl;
             }
 
