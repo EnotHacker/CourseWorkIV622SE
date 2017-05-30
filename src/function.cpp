@@ -299,8 +299,7 @@ void input_words(vector<dict> &list){
     writeinfile_add(list);
 }
 
-void menu()
-{
+void menu(){   
     srand(time(NULL));
     vector<dict> list;
     int change = 0;
