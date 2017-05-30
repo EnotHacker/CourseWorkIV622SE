@@ -306,19 +306,30 @@ void menu(){
     int session;
     ifstream fin("session"); 
     fin >> session; 
-    if(session == 0){
-        ofstream fout("session", ios::out);
-        fout << 1;
-        fout.close();
-        cout << "1. Ввести слова для запоминания" << endl;
-    }
-    else 
-        cout << "1. Добавить слова" << endl;
+    while(1){
+        if(session == 0){
+            ofstream fout("session", ios::out);
+            fout << 1;
+            fout.close();
+            cout << endl << "1. Ввести слова для запоминания" << endl;
+        }
+        else 
+            cout << endl << "1. Добавить слова" << endl;
 
-    cout << "2. Учить" << endl;
-    cout << "3. Выйти из программы" << endl;
-    cout << "Выберите №: ";
-    cin >> change;
+        cout << "2. Учить" << endl;
+        cout << "3. Выйти из программы" << endl;
+        cout << "Выберите №: ";
+        cin >> change;
+        if( (change == 1) || (change == 2) || (change == 3) )
+            break;
+
+        else{
+            system("clear");
+            mt_setfgcolor(RED);
+            cout << endl << "----- ОШИБКА!!! Введите цифру от 1 до 3 -----" << endl;
+            mt_setfgcolor(DEFAULT);
+        }
+    }
     switch(change)
     {   
         case 3:
