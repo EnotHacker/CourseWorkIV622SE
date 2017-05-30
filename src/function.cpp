@@ -69,7 +69,7 @@ int func_check_choiseRU(vector<dict> &list, int k, int v, int i)
     	mt_setfgcolor(RED);
     	cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
     	mt_setfgcolor(DEFAULT);
-		cout << "Правильный ответ: " << k << ". " << list[i].rus << endl;
+		cout << endl << "Правильный ответ: " << k << ". " << list[i].rus << endl;
         rating(list, 0, i);
 	}
     return 0;  
@@ -88,7 +88,7 @@ int func_check_choiseENG(vector<dict> &list, int k, int v, int i)
     	mt_setfgcolor(RED);
         cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
         mt_setfgcolor(DEFAULT);
-        cout << "Правильный ответ: " << k << ". " << list[i].eng << endl;
+        cout << endl << "Правильный ответ: " << k << ". " << list[i].eng << endl;
         rating(list, 0, i);        
     }
     return 0;  
@@ -204,15 +204,15 @@ void correct_writing_word(vector<dict> &list){
     {   
         rating(list, 1, i);
         mt_setfgcolor(GREEN);
-        cout << endl << "-----ВЕРНО!!-----" << endl;
+        cout << endl << "----- ВЕРНО! -----" << endl;
         mt_setfgcolor(DEFAULT);
     }
     else{
         rating(list, 0, i);
         mt_setfgcolor(RED);
-        cout << "-----ВЫ ОШИБЛИСЬ!-----" << endl;
+        cout << endl << "----- ВЫ ОШИБЛИСЬ! -----" << endl;
         mt_setfgcolor(DEFAULT); 
-        cout << "Правильный ответ: " << list[i].eng << endl;
+        cout << endl << "Правильный ответ: " << list[i].eng << endl;
     }
     answer.clear();
 }
@@ -285,7 +285,7 @@ void words_more_5(vector<dict> &list){
 }
 void input_words(vector<dict> &list){
     int size;
-    cout << endl << "Введите количество слов, которые ВЫ хотите запомнить: ";
+    cout << endl << " Введите количество слов, которые ВЫ хотите запомнить: ";
     cin >> size;
     for(int i = 0; i < size; i++){
         dict tmp;
@@ -301,7 +301,7 @@ void input_words(vector<dict> &list){
 
 void menu()
 {
-        srand(time(NULL));
+    srand(time(NULL));
     vector<dict> list;
     int change = 0;
     int session;
@@ -327,7 +327,12 @@ void menu()
             break;
         case 1:
             while(1){
+                system("clear");
                 input_words(list);
+                system("clear");
+                mt_setfgcolor(GREEN);
+                cout << endl << "----- Слова добавленны! -----" << endl;
+                mt_setfgcolor(DEFAULT);              
                 cout << endl << "1. Ввести ещё слова" << endl;
                 cout << "2. Начать обучение" << endl;
                 cout << "Выберите №: ";
@@ -341,8 +346,10 @@ void menu()
             readfromfile(list);        
             list.pop_back();
             words_more_5(list);
+            system("clear");
+            mt_setfgcolor(BLUE);
             cout << endl << " Слова для запоминания: " << endl;
-
+            mt_setfgcolor(DEFAULT);
             cout << " #------------------------------------------------------------------------------#" << endl;
             cout << " |№|   на АНГЛИЙСКОМ    |"  << "      на РУССКОМ       |" << "       ВЫУЧЕННОСТЬ слов        |"<< endl; 
             cout << " |------------------------------------------------------------------------------|" << endl;
@@ -398,6 +405,24 @@ void menu()
             }
             break;
     }
+    system("clear");
+    mt_setfgcolor(BLUE);
+    cout << endl << " Прогресс запоминания: " << endl;
+    mt_setfgcolor(DEFAULT);
+    cout << " #------------------------------------------------------------------------------#" << endl;
+    cout << " |№|   на АНГЛИЙСКОМ    |"  << "      на РУССКОМ       |" << "       ВЫУЧЕННОСТЬ слов        |"<< endl; 
+    cout << " |------------------------------------------------------------------------------|" << endl;
+
+    for(unsigned int i = 0; i < list.size(); i++){
+        cout << " |" << i+1 << "|" << '\t' << list[i].eng << '\t' <<  '\t' << "|"  << '\t' << list[i].rus << '\t' << '\t' << "|"  <<  '\t' <<  '\t' << list[i].proc << "%" << '\t' <<  '\t' << "|" << endl;
+        cout << " |------------------------------------------------------------------------------|" << endl;
+    }
+
+
     writeinfile_rewrite(list);
+    mt_setfgcolor(YELLOW);
+    cout << endl << "----- Обучение завершено! -----" << endl;
+    mt_setfgcolor(DEFAULT);
+    cout << endl;
     menu();
 }
